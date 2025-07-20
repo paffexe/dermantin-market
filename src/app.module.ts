@@ -5,6 +5,11 @@ import { UserModule } from "./user/user.module";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
+import { CategoryModule } from './category/category.module';
+import { ImagesModule } from './images/images.module';
+import { ReviewModule } from './review/review.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -33,6 +38,11 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    AdminModule,
+    CategoryModule,
+    ImagesModule,
+    ReviewModule,
+    MessageModule,
   ],
 
   controllers: [],
