@@ -1,4 +1,10 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCategoryDto } from './create-category.dto';
+import { Field, InputType } from "@nestjs/graphql";
 
-export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
+@InputType()
+export class UpdateCategoryDto {
+  @Field()
+  name?: string;
+
+  @Field({ nullable: true })
+  logo?: string;
+}

@@ -1,8 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { ObjectType, Field, ID } from "@nestjs/graphql";
+import { Dermantin } from "../../dermantin/entities/dermantin.entity";
 
 @ObjectType()
-@Entity("categories")
+@Entity()
 export class Category {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
@@ -15,4 +22,8 @@ export class Category {
   @Field({ nullable: true })
   @Column({ nullable: true })
   logo?: string;
+
+  @Field((type) => [Dermantin])
+  @OneToMany((type) => Dermantin, (dermantin) => dermantin.category)
+  dermantin: Dermantin[];
 }

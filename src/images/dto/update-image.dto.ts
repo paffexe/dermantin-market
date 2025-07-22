@@ -1,4 +1,11 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateImageDto } from './create-image.dto';
+import { IsBoolean, IsString } from "class-validator";
+import { InputType } from "@nestjs/graphql";
 
-export class UpdateImageDto extends PartialType(CreateImageDto) {}
+@InputType()
+export class UpdateImageDto {
+  @IsString()
+  image_url?: string;
+
+  @IsBoolean()
+  is_main?: boolean;
+}

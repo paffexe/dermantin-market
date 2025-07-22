@@ -10,6 +10,8 @@ import { CategoryModule } from './category/category.module';
 import { ImagesModule } from './images/images.module';
 import { ReviewModule } from './review/review.module';
 import { MessageModule } from './message/message.module';
+import { AdvertisementModule } from './advertisement/advertisement.module';
+import { DermantinModule } from './dermantin/dermantin.module';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { MessageModule } from './message/message.module';
     ImagesModule,
     ReviewModule,
     MessageModule,
+    AdvertisementModule,
+    DermantinModule,
   ],
 
   controllers: [],
