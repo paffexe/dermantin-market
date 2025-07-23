@@ -66,6 +66,11 @@ input CreateChatDto {
   userId: Int!
 }
 
+input CreateHistoryDto {
+  dermantinId: Int!
+  userId: Int!
+}
+
 input CreateImageDto {
   image_url: String!
   is_main: Boolean!
@@ -93,9 +98,11 @@ input CreateStoreDto {
 }
 
 input CreateUserDto {
+  confirm_password: String!
   email: String!
   full_name: String!
   lang: Language!
+  password: String!
   phone: String
   region: Region!
   role: UserRole! = USER
@@ -105,6 +112,7 @@ type Dermantin {
   ad: [Advertisement!]!
   category: Category!
   class: DermantinClass!
+  histories: [History!]!
   id: ID!
   images: [Image!]!
   name: String!
@@ -115,6 +123,12 @@ type Dermantin {
 enum DermantinClass {
   BASIC
   PREMIUM
+}
+
+type History {
+  dermantin: Dermantin!
+  id: ID!
+  user: User!
 }
 
 type Image {
@@ -138,6 +152,7 @@ type Mutation {
   createAdvertisement(createAdvertisement: CreateAdvertisementDto!): Advertisement!
   createChat(createChat: CreateChatDto!): Chat!
   createDermantin(createDermantin: ID!): Dermantin!
+  createHistory(createHistory: CreateHistoryDto!): History!
   createImage(createImage: CreateImageDto!): Image!
   createMessage(createMessageDto: CreateMessageDto!): Message!
   createRequest(createRequest: CreateRequestDto!): Request!
@@ -147,6 +162,7 @@ type Mutation {
   removeAdmin(id: ID!): String!
   removeAdvertisement(id: ID!): Boolean!
   removeChat(id: ID!): String!
+  removeHistory(id: ID!): String!
   removeImage(id: ID!): String!
   removeMessage(id: Int!): Boolean!
   removeRequest(id: ID!): String!
@@ -156,6 +172,7 @@ type Mutation {
   updateAdmin(id: ID!, updateAdmin: UpdateAdminDto!): Admin!
   updateAdvertisement(id: ID!, updateAdvertisement: UpdateAdvertisementDto!): Advertisement!
   updateChat(id: ID!, updateChat: UpdateChatDto!): Chat!
+  updateHistory(id: ID!, updateHistory: UpdateHistoryDto!): History!
   updateImage(id: ID!, updateImage: UpdateImageDto!): Image!
   updateMessage(id: Int!, updateMessageDto: UpdateMessageDto!): Message!
   updateRequest(id: ID!, updateRequest: UpdateRequestDto!): Request!
@@ -168,6 +185,7 @@ type Query {
   findAllAdvertisement: [Advertisement!]!
   findAllChats: [Chat!]!
   findAllDermantin: [Dermantin!]!
+  findAllHistories: [History!]!
   findAllImages: [Image!]!
   findAllRequests: [Request!]!
   findAllStores: [Store!]!
@@ -176,6 +194,7 @@ type Query {
   findOneAdmin(id: ID!): Admin!
   findOneAdvertisement(id: ID!): Advertisement!
   findOneChat(id: ID!): Chat!
+  findOneHistory(id: ID!): History!
   findOneImage(id: ID!): Image!
   findOneRequest(id: ID!): Request!
   findOneStore(id: ID!): Store!
@@ -272,6 +291,11 @@ input UpdateDermantinDto {
   rating: Float!
 }
 
+input UpdateHistoryDto {
+  dermantinId: Int!
+  userId: Int!
+}
+
 input UpdateImageDto {
   image_url: String
   is_main: Boolean
@@ -301,16 +325,19 @@ input UpdateStoreDto {
 input UpdateUserDto {
   email: String
   name: String
+  password: String
   phone: String
 }
 
 type User {
-  activation_code: String!
+  activation_link: String!
   email: String!
   full_name: String!
+  histories: [History!]!
   id: ID!
   is_verified: Boolean!
   lang: Language!
+  password: String!
   phone: String
   refresh_token: String!
   region: Region!

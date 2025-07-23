@@ -14,8 +14,6 @@ import { AuthService } from "./auth.service";
 import { SigninUserDto } from "../user/dto/sign-in-user";
 import { CookieGetter } from "../common/decorators/cookie-getter";
 
-
-
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

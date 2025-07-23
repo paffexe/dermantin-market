@@ -15,6 +15,7 @@ import { DermantinModule } from './dermantin/dermantin.module';
 import { RequestModule } from './request/request.module';
 import { ChatModule } from './chat/chat.module';
 import { StoreModule } from './store/store.module';
+import { HistoryModule } from './history/history.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { StoreModule } from './store/store.module';
     RequestModule,
     ChatModule,
     StoreModule,
+    HistoryModule,
   ],
 
   controllers: [],

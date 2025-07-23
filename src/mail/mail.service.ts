@@ -7,16 +7,16 @@ export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   async sendMail(user: User) {
-    const code = `${user.activation_code}`;
-    console.log(code);
+    const url = `${process.env.api_url}/api/users/activate/${user.activation_link}`;
+    console.log(url);
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: "This is your code",
+      subject: "Welcome to InBook App!",
       template: "./confirmation",
       context: {
         username: user.full_name,
-        code,
+        url,
       },
     });
   }

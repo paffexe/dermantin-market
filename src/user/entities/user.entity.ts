@@ -3,6 +3,8 @@ import { ObjectType, Field, registerEnumType, ID } from "@nestjs/graphql";
 import { Request } from "../../request/entities/request.entity";
 import { Chat } from "../../chat/entities/chat.entity";
 import { Store } from "../../store/entities/store.entity";
+import { History } from "../../history/entities/history.entity";
+import { v4 as uuidv4 } from "uuid";
 
 export enum UserRole {
   MANAGER = "manager",
@@ -52,6 +54,9 @@ export class User {
   @Field({ nullable: true })
   phone: string;
 
+  @Field({ nullable: false })
+  password: string;
+
   @Field(() => UserRole)
   @Column({ type: "enum", enum: UserRole, default: UserRole.USER })
   role: UserRole;
@@ -69,12 +74,12 @@ export class User {
   lang: Language;
 
   @Field()
-  @Column({ length: 4 })
-  activation_code: string;
-
-  @Field()
   @Column()
   refresh_token: string;
+
+  @Field()
+  @Column({ default: () => `'${uuidv4()}'` })
+  activation_link: string;
 
   @OneToMany(() => Request, (request) => request.user)
   @Field(() => [Request])
@@ -86,4 +91,8 @@ export class User {
   @Field((type) => [Store])
   @OneToMany((type) => Store, (store) => store.manager)
   stores: Store[];
+
+  @Field((type) => [History])
+  @OneToMany((type) => History, (history) => history.user)
+  histories: History[];
 }

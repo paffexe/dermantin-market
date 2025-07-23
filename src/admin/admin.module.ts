@@ -9,5 +9,6 @@ import { AdminResolver } from "./admin.resolver";
   imports: [TypeOrmModule.forFeature([Admin])],
   controllers: [AdminController],
   providers: [AdminService, AdminResolver],
+  exports: [AdminService],
 })
 export class AdminModule {}

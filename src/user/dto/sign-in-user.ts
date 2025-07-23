@@ -6,5 +6,5 @@ export class SigninUserDto {
   email: string;
 
   @Field()
-  code: string;
+  password: string;
 }

@@ -15,14 +15,16 @@ import { UserService } from "../user/user.service";
 import { User } from "../user/entities/user.entity";
 import { CreateUserDto } from "../user/dto/create-user.dto";
 import { SigninUserDto } from "../user/dto/sign-in-user";
+import { AdminService } from "../admin/admin.service";
+import { Admin } from "../admin/entities/admin.entity";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UserService,
-    private readonly mailService: MailService
-    // private readonly adminService: AdminService
+    private readonly mailService: MailService,
+    private readonly adminService: AdminService
   ) {}
 
   async generateTokens(user: User) {
@@ -48,29 +50,29 @@ export class AuthService {
     };
   }
 
-  // async generateAdminToken(admin: Admin) {
-  //   const payload = {
-  //     id: admin.id,
-  //     is_creator: admin.is_creator,
-  //     is_active: admin.is_active,
-  //   };
+  async generateAdminToken(admin: Admin) {
+    const payload = {
+      id: admin.id,
+      is_creator: admin.is_creator,
+      is_active: admin.is_active,
+    };
 
-  //   const [accessToken, refreshToken] = await Promise.all([
-  //     this.jwtService.signAsync(payload, {
-  //       secret: process.env.ADMIN_ACCESS_TOKEN_KEY,
-  //       expiresIn: process.env.ADMIN_ACCESS_TOKEN_TIME,
-  //     }),
-  //     this.jwtService.signAsync(payload, {
-  //       secret: process.env.ADMIN_REFRESH_TOKEN_KEY,
-  //       expiresIn: process.env.ADMIN_REFRESH_TOKEN_TIME,
-  //     }),
-  //   ]);
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
+        secret: process.env.ADMIN_ACCESS_TOKEN_KEY,
+        expiresIn: process.env.ADMIN_ACCESS_TOKEN_TIME,
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: process.env.ADMIN_REFRESH_TOKEN_KEY,
+        expiresIn: process.env.ADMIN_REFRESH_TOKEN_TIME,
+      }),
+    ]);
 
-  //   return {
-  //     accessToken,
-  //     refreshToken,
-  //   };
-  // }
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
 
   async signup(createUserDto: CreateUserDto) {
     const candidate = await this.usersService.findUserByEmail(
@@ -102,8 +104,8 @@ export class AuthService {
     }
 
     const isMatched = await bcrypt.compare(
-      signinUserDto.code,
-      user.activation_code
+      signinUserDto.password,
+      user.password
     );
 
     if (!isMatched) {
@@ -112,7 +114,7 @@ export class AuthService {
 
     const { accessToken, refreshToken } = await this.generateTokens(user);
     user.refresh_token = await bcrypt.hash(refreshToken, 7);
-    await this.usersService.save(user);
+    await this.usersService.update(user.id, user);
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: +process.env.COOKIE_TIME!,

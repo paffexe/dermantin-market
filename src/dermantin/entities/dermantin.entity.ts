@@ -15,6 +15,7 @@ import {
 import { Advertisement } from "../../advertisement/entities/advertisement.entity";
 import { Image } from "../../images/entities/image.entity";
 import { Category } from "../../category/entities/category.entity";
+import { History } from "../../history/entities/history.entity";
 
 export enum DermantinClass {
   PREMIUM = "premium",
@@ -59,4 +60,8 @@ export class Dermantin {
   @Field(() => Category)
   @ManyToOne(() => Category, (category) => category.dermantin)
   category: Category;
+
+  @Field((type) => [History])
+  @OneToMany((type) => History, (history) => history.dermantin)
+  histories: History[];
 }

@@ -16,6 +16,12 @@ export class CreateUserDto {
   @IsString()
   phone: string;
 
+  @Field({ nullable: false })
+  password: string;
+
+  @Field({ nullable: false })
+  confirm_password: string;
+
   @Field(() => UserRole, { defaultValue: UserRole.USER })
   @IsEnum(UserRole)
   role: UserRole;
