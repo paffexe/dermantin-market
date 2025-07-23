@@ -2,26 +2,300 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateUserDto {
+type Admin {
   email: String!
-  name: String!
+  fullname: String!
+  id: ID!
+  is_active: Boolean!
+  is_creator: Boolean!
+  password: String!
   phone: String
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type Advertisement {
+  dermantin: Dermantin!
+  discount_percent: Float!
+  end_date: String!
+  id: ID!
+  start_date: String!
+  status: AdvertisementStatus!
+  type: AdvertisementType!
+}
+
+enum AdvertisementStatus {
+  ACCEPTED
+  PROCESSING
+  REJECTED
+}
+
+enum AdvertisementType {
+  DISCOUNTED
+  STANDART
+}
+
+type Category {
+  dermantin: [Dermantin!]!
+  id: ID!
+  logo: String
+  name: String!
+}
+
+type Chat {
+  id: ID!
+  store: Store!
+  user: User!
+}
+
+input CreateAdminDto {
+  email: String!
+  fullname: String!
+  password: String!
+  phone: String
+}
+
+input CreateAdvertisementDto {
+  discount_percent: Float!
+  end_date: String!
+  start_date: String!
+  status: AdvertisementStatus!
+  type: AdvertisementType!
+}
+
+input CreateChatDto {
+  storeId: Int!
+  userId: Int!
+}
+
+input CreateImageDto {
+  image_url: String!
+  is_main: Boolean!
+}
+
+input CreateMessageDto {
+  chatId: Int!
+  is_read: Boolean! = false
+  text: String!
+}
+
+input CreateRequestDto {
+  status: RequestStatus! = PENDING
+  text: String!
+  userId: Float!
+}
+
+input CreateStoreDto {
+  description: String!
+  logo_url: String!
+  managerId: Int!
+  name: String!
+  region: StoreRegion!
+  status: StoreStatus!
+}
+
+input CreateUserDto {
+  email: String!
+  full_name: String!
+  lang: Language!
+  phone: String
+  region: Region!
+  role: UserRole! = USER
+}
+
+type Dermantin {
+  ad: [Advertisement!]!
+  category: Category!
+  class: DermantinClass!
+  id: ID!
+  images: [Image!]!
+  name: String!
+  price: Float!
+  rating: Float!
+}
+
+enum DermantinClass {
+  BASIC
+  PREMIUM
+}
+
+type Image {
+  dermantin: Dermantin!
+}
+
+enum Language {
+  RUSSIAN
+  UZBEK
+}
+
+type Message {
+  chat: Chat!
+  id: Int!
+  is_read: Boolean!
+  text: String!
+}
 
 type Mutation {
+  createAdmin(createAdmin: CreateAdminDto!): Admin!
+  createAdvertisement(createAdvertisement: CreateAdvertisementDto!): Advertisement!
+  createChat(createChat: CreateChatDto!): Chat!
+  createDermantin(createDermantin: ID!): Dermantin!
+  createImage(createImage: CreateImageDto!): Image!
+  createMessage(createMessageDto: CreateMessageDto!): Message!
+  createRequest(createRequest: CreateRequestDto!): Request!
+  createStore(createStore: CreateStoreDto!): Store!
   createUser(createUser: CreateUserDto!): User!
+  remove(id: ID!): Float!
+  removeAdmin(id: ID!): String!
+  removeAdvertisement(id: ID!): Boolean!
+  removeChat(id: ID!): String!
+  removeImage(id: ID!): String!
+  removeMessage(id: Int!): Boolean!
+  removeRequest(id: ID!): String!
+  removeStore(id: ID!): String!
   removeUser(id: ID!): String!
+  update(id: ID!, updateDermantin: UpdateDermantinDto!): Dermantin!
+  updateAdmin(id: ID!, updateAdmin: UpdateAdminDto!): Admin!
+  updateAdvertisement(id: ID!, updateAdvertisement: UpdateAdvertisementDto!): Advertisement!
+  updateChat(id: ID!, updateChat: UpdateChatDto!): Chat!
+  updateImage(id: ID!, updateImage: UpdateImageDto!): Image!
+  updateMessage(id: Int!, updateMessageDto: UpdateMessageDto!): Message!
+  updateRequest(id: ID!, updateRequest: UpdateRequestDto!): Request!
+  updateStore(id: ID!, updateStore: UpdateStoreDto!): Store!
   updateUser(id: ID!, updateUser: UpdateUserDto!): User!
 }
 
 type Query {
+  findAllAdmins: [Admin!]!
+  findAllAdvertisement: [Advertisement!]!
+  findAllChats: [Chat!]!
+  findAllDermantin: [Dermantin!]!
+  findAllImages: [Image!]!
+  findAllRequests: [Request!]!
+  findAllStores: [Store!]!
   findAllUsers: [User!]!
+  findOne(id: ID!): Dermantin!
+  findOneAdmin(id: ID!): Admin!
+  findOneAdvertisement(id: ID!): Advertisement!
+  findOneChat(id: ID!): Chat!
+  findOneImage(id: ID!): Image!
+  findOneRequest(id: ID!): Request!
+  findOneStore(id: ID!): Store!
   findOneUser(id: ID!): User!
+  getAllMessages: [Message!]!
+  getMessageById(id: Int!): Message!
+}
+
+enum Region {
+  ANDIJAN
+  BUKHARA
+  FERGANA
+  JIZZAKH
+  KARAKALPAKSTAN
+  KASHKADARYA
+  KHOREZM
+  NAMANGAN
+  NAVOI
+  SAMARKAND
+  SURKHANDARYA
+  SYRDARYA
+  TASHKENT
+}
+
+type Request {
+  id: Float!
+  status: RequestStatus!
+  text: String!
+  user: User!
+}
+
+enum RequestStatus {
+  ACCEPTED
+  PENDING
+  REJECTED
+}
+
+type Store {
+  chats: [Chat!]!
+  description: String!
+  id: ID!
+  logo_url: String!
+  manager: User!
+  name: String!
+  region: StoreRegion!
+  status: StoreStatus!
+}
+
+enum StoreRegion {
+  ANDIJAN
+  BUKHARA
+  FERGANA
+  JIZZAKH
+  KASHKADARYA
+  KHOREZM
+  NAMANGAN
+  NAVOI
+  SAMARKAND
+  SURKHANDARYA
+  SYRDARYA
+  TASHKENT
+}
+
+enum StoreStatus {
+  CONFIRMED
+  PENDING
+  REJECTED
+}
+
+input UpdateAdminDto {
+  email: String!
+  fullname: String!
+  password: String!
+  phone: String
+}
+
+input UpdateAdvertisementDto {
+  discount_percent: Float!
+  end_date: String!
+  start_date: String!
+  status: AdvertisementStatus!
+  type: AdvertisementType!
+}
+
+input UpdateChatDto {
+  storeId: Int!
+  userId: Int!
+}
+
+input UpdateDermantinDto {
+  class: DermantinClass!
+  name: String!
+  price: Float!
+  rating: Float!
+}
+
+input UpdateImageDto {
+  image_url: String
+  is_main: Boolean
+}
+
+input UpdateMessageDto {
+  chatId: Int!
+  is_read: Boolean! = false
+  text: String!
+}
+
+input UpdateRequestDto {
+  status: RequestStatus! = PENDING
+  text: String!
+  userId: Float!
+}
+
+input UpdateStoreDto {
+  description: String!
+  logo_url: String!
+  managerId: Int!
+  name: String!
+  region: StoreRegion!
+  status: StoreStatus!
 }
 
 input UpdateUserDto {
@@ -31,10 +305,21 @@ input UpdateUserDto {
 }
 
 type User {
-  createdAt: DateTime!
+  activation_code: String!
   email: String!
+  full_name: String!
   id: ID!
-  name: String!
+  is_verified: Boolean!
+  lang: Language!
   phone: String
-  updatedAt: DateTime!
+  refresh_token: String!
+  region: Region!
+  requests: [Request!]!
+  role: UserRole!
+  stores: [Store!]!
+}
+
+enum UserRole {
+  MANAGER
+  USER
 }

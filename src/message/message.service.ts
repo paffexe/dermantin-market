@@ -1,47 +1,63 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Message } from "./entities/message.entity";
 import { CreateMessageDto } from "./dto/create-message.dto";
 import { UpdateMessageDto } from "./dto/update-message.dto";
+import { Chat } from "../chat/entities/chat.entity";
 
 @Injectable()
 export class MessageService {
   constructor(
     @InjectRepository(Message)
-    private readonly messageRepository: Repository<Message>
+    private readonly messageRepo: Repository<Message>,
+    @InjectRepository(Chat)
+    private readonly chatRepo: Repository<Chat>
   ) {}
 
-  async create(createMessageDto: CreateMessageDto): Promise<Message> {
-    const newMessage = this.messageRepository.create(createMessageDto);
-    return this.messageRepository.save(newMessage);
+  async create(createMessageDto: CreateMessageDto) {
+    const chat = await this.chatRepo.findOneBy({ id: createMessageDto.chatId });
+
+    if (!chat) {
+      throw new BadRequestException("Bunday chat yo'q");
+    }
+
+    return this.messageRepo.save(createMessageDto);
   }
 
-  async findAll(): Promise<Message[]> {
-    return this.messageRepository.find();
+  async findAll() {
+    return this.messageRepo.find({ relations: ["chat"] });
   }
 
-  async findOne(id: number): Promise<Message> {
-    const message = await this.messageRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const message = await this.messageRepo.findOneBy({ id });
     if (!message) {
       throw new NotFoundException(`Message with ID ${id} not found`);
     }
     return message;
   }
 
-  async update(
-    id: number,
-    updateMessageDto: UpdateMessageDto
-  ): Promise<Message> {
-    const message = await this.findOne(id);
-    Object.assign(message, updateMessageDto);
-    return this.messageRepository.save(message);
+  async update(id: number, updateMessageDto: UpdateMessageDto) {
+    const data = await this.messageRepo.preload({ id, ...updateMessageDto });
+
+    if (!data) {
+      throw new NotFoundException("Bunday ma'lumot yo'q");
+    }
+
+    return this.messageRepo.save(data);
   }
 
-  async remove(id: number): Promise<void> {
-    const result = await this.messageRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Message with ID ${id} not found`);
+  async remove(id: number) {
+    const data = await this.messageRepo.findOneBy({ id });
+
+    if (!data) {
+      throw new NotFoundException("Bunday ma'lumot yo'q");
     }
+
+    return { message: "Deleted succesfully" };
   }
 }

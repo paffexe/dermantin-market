@@ -1,7 +1,8 @@
-import { Field } from "@nestjs/graphql";
+import { Field, ObjectType } from "@nestjs/graphql";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Dermantin } from "../../dermantin/entities/dermantin.entity";
 
+@ObjectType()
 @Entity()
 export class Image {
   @PrimaryGeneratedColumn()

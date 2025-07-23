@@ -1,4 +1,4 @@
-import { InputType, Field } from "@nestjs/graphql";
+import { InputType, Field, Int } from "@nestjs/graphql";
 
 @InputType()
 export class CreateMessageDto {
@@ -7,4 +7,7 @@ export class CreateMessageDto {
 
   @Field({ defaultValue: false })
   is_read: boolean;
+
+  @Field(() => Int)
+  chatId: number;
 }

@@ -1,5 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { ObjectType, Field, registerEnumType, ID } from "@nestjs/graphql";
+import { Request } from "../../request/entities/request.entity";
+import { Chat } from "../../chat/entities/chat.entity";
+import { Store } from "../../store/entities/store.entity";
 
 export enum UserRole {
   MANAGER = "manager",
@@ -72,4 +75,15 @@ export class User {
   @Field()
   @Column()
   refresh_token: string;
+
+  @OneToMany(() => Request, (request) => request.user)
+  @Field(() => [Request])
+  requests: Request[];
+
+  @OneToMany(() => Chat, (chat) => chat.user)
+  chats: Chat[];
+
+  @Field((type) => [Store])
+  @OneToMany((type) => Store, (store) => store.manager)
+  stores: Store[];
 }

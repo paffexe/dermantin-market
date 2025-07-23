@@ -12,6 +12,9 @@ import { ReviewModule } from './review/review.module';
 import { MessageModule } from './message/message.module';
 import { AdvertisementModule } from './advertisement/advertisement.module';
 import { DermantinModule } from './dermantin/dermantin.module';
+import { RequestModule } from './request/request.module';
+import { ChatModule } from './chat/chat.module';
+import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [
@@ -47,6 +50,9 @@ import { DermantinModule } from './dermantin/dermantin.module';
     MessageModule,
     AdvertisementModule,
     DermantinModule,
+    RequestModule,
+    ChatModule,
+    StoreModule,
   ],
 
   controllers: [],

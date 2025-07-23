@@ -2,7 +2,6 @@ import { ObjectType, Field, ID, registerEnumType } from "@nestjs/graphql";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Dermantin } from "../../dermantin/entities/dermantin.entity";
 
-// Enums
 export enum AdvertisementType {
   STANDART = "standart",
   DISCOUNTED = "discounted",
