@@ -5,6 +5,8 @@ import { Chat } from "../../chat/entities/chat.entity";
 import { Store } from "../../store/entities/store.entity";
 import { History } from "../../history/entities/history.entity";
 import { v4 as uuidv4 } from "uuid";
+import { Order } from "../../order/entities/order.entity";
+import { Review } from "../../review/entities/review.entity";
 
 export enum UserRole {
   MANAGER = "manager",
@@ -95,4 +97,10 @@ export class User {
   @Field((type) => [History])
   @OneToMany((type) => History, (history) => history.user)
   histories: History[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }

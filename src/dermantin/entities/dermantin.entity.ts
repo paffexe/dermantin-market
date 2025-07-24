@@ -16,6 +16,7 @@ import { Advertisement } from "../../advertisement/entities/advertisement.entity
 import { Image } from "../../images/entities/image.entity";
 import { Category } from "../../category/entities/category.entity";
 import { History } from "../../history/entities/history.entity";
+import { Order } from "../../order/entities/order.entity";
 
 export enum DermantinClass {
   PREMIUM = "premium",
@@ -64,4 +65,10 @@ export class Dermantin {
   @Field((type) => [History])
   @OneToMany((type) => History, (history) => history.dermantin)
   histories: History[];
+
+  @OneToMany(() => Order, (order) => order.dermantin)
+  orders: Order[];
+
+  @OneToMany(() => Order, (review) => review.dermantin)
+  reviews: Order[];
 }

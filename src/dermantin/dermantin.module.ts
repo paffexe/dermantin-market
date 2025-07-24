@@ -10,5 +10,6 @@ import { DermantinResolver } from "./dermantin.resolver";
   imports: [TypeOrmModule.forFeature([Dermantin, Advertisement])],
   controllers: [DermantinController],
   providers: [DermantinService, DermantinResolver],
+  exports: [DermantinService],
 })
 export class DermantinModule {}

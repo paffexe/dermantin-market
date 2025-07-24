@@ -82,10 +82,24 @@ input CreateMessageDto {
   text: String!
 }
 
+input CreateOrderDto {
+  dermantinId: Int!
+  remaining_price: Float!
+  storeId: Int!
+  total_price: Float!
+  userId: Int!
+}
+
 input CreateRequestDto {
   status: RequestStatus! = PENDING
   text: String!
   userId: Float!
+}
+
+input CreateReviewDto {
+  dermantinId: Int!
+  ranking: Float!
+  userId: Int!
 }
 
 input CreateStoreDto {
@@ -155,7 +169,9 @@ type Mutation {
   createHistory(createHistory: CreateHistoryDto!): History!
   createImage(createImage: CreateImageDto!): Image!
   createMessage(createMessageDto: CreateMessageDto!): Message!
+  createOrder(createOrder: CreateOrderDto!): Order!
   createRequest(createRequest: CreateRequestDto!): Request!
+  createReview(createReview: CreateReviewDto!): Review!
   createStore(createStore: CreateStoreDto!): Store!
   createUser(createUser: CreateUserDto!): User!
   remove(id: ID!): Float!
@@ -165,7 +181,9 @@ type Mutation {
   removeHistory(id: ID!): String!
   removeImage(id: ID!): String!
   removeMessage(id: Int!): Boolean!
+  removeOrder(id: ID!): String!
   removeRequest(id: ID!): String!
+  removeReview(id: ID!): String!
   removeStore(id: ID!): String!
   removeUser(id: ID!): String!
   update(id: ID!, updateDermantin: UpdateDermantinDto!): Dermantin!
@@ -175,9 +193,20 @@ type Mutation {
   updateHistory(id: ID!, updateHistory: UpdateHistoryDto!): History!
   updateImage(id: ID!, updateImage: UpdateImageDto!): Image!
   updateMessage(id: Int!, updateMessageDto: UpdateMessageDto!): Message!
+  updateOrder(id: ID!, updateOrder: UpdateOrderDto!): Order!
   updateRequest(id: ID!, updateRequest: UpdateRequestDto!): Request!
+  updateReview(id: ID!, updateReview: UpdateReviewDto!): Review!
   updateStore(id: ID!, updateStore: UpdateStoreDto!): Store!
   updateUser(id: ID!, updateUser: UpdateUserDto!): User!
+}
+
+type Order {
+  dermantin: Dermantin!
+  id: ID!
+  remaining_price: Float!
+  store: Store!
+  total_price: Float!
+  user: User!
 }
 
 type Query {
@@ -187,7 +216,9 @@ type Query {
   findAllDermantin: [Dermantin!]!
   findAllHistories: [History!]!
   findAllImages: [Image!]!
+  findAllOrders: [Order!]!
   findAllRequests: [Request!]!
+  findAllReviews: [Review!]!
   findAllStores: [Store!]!
   findAllUsers: [User!]!
   findOne(id: ID!): Dermantin!
@@ -196,7 +227,9 @@ type Query {
   findOneChat(id: ID!): Chat!
   findOneHistory(id: ID!): History!
   findOneImage(id: ID!): Image!
+  findOneOrder(id: ID!): Order!
   findOneRequest(id: ID!): Request!
+  findOneReview(id: ID!): Review!
   findOneStore(id: ID!): Store!
   findOneUser(id: ID!): User!
   getAllMessages: [Message!]!
@@ -230,6 +263,13 @@ enum RequestStatus {
   ACCEPTED
   PENDING
   REJECTED
+}
+
+type Review {
+  dermantin: Dermantin!
+  id: Int!
+  ranking: Float!
+  user: User!
 }
 
 type Store {
@@ -307,10 +347,24 @@ input UpdateMessageDto {
   text: String!
 }
 
+input UpdateOrderDto {
+  dermantinId: Int!
+  remaining_price: Float!
+  storeId: Int!
+  total_price: Float!
+  userId: Int!
+}
+
 input UpdateRequestDto {
   status: RequestStatus! = PENDING
   text: String!
   userId: Float!
+}
+
+input UpdateReviewDto {
+  dermantinId: Int!
+  ranking: Float!
+  userId: Int!
 }
 
 input UpdateStoreDto {

@@ -16,6 +16,7 @@ import { RequestModule } from './request/request.module';
 import { ChatModule } from './chat/chat.module';
 import { StoreModule } from './store/store.module';
 import { HistoryModule } from './history/history.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { HistoryModule } from './history/history.module';
     ChatModule,
     StoreModule,
     HistoryModule,
+    OrderModule,
   ],
 
   controllers: [],

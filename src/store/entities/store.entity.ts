@@ -9,6 +9,7 @@ import { ObjectType, Field, ID } from "@nestjs/graphql";
 import { registerEnumType } from "@nestjs/graphql";
 import { User } from "../../user/entities/user.entity";
 import { Chat } from "../../chat/entities/chat.entity";
+import { Order } from "../../order/entities/order.entity";
 
 export enum StoreRegion {
   TASHKENT = "Tashkent",
@@ -68,4 +69,7 @@ export class Store {
   @OneToMany(() => Chat, (chat) => chat.store)
   @Field(() => [Chat])
   chats: Chat[];
+
+  @OneToMany(() => Order, (order) => order.store)
+  orders: Order[];
 }
